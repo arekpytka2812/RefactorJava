@@ -1,6 +1,6 @@
 public class Main{
 
-    public final static void main(){
+    public final void main(){
         if(war1 <= 0 && (wa2 || warunek3)){
 
         }
