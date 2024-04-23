@@ -22,6 +22,8 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
 
     private Integer funcCounter = 1;
 
+    private Integer extractingMethodIndex = -1;
+
     public ExtractBoolStatementsListener(CommonTokenStream commonTokenStream, JavaParser parser, JavaLexer lexer){
         this.tokStream = commonTokenStream;
         rewriter = new TokenStreamRewriter(commonTokenStream);
@@ -63,9 +65,15 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
 
         for(JavaParser.ModifierContext modifier : classBodyDeclarationContext.modifier()){
             isStatic = modifier.classOrInterfaceModifier().getText().equals("static");
+
+            if(isStatic){
+                break;
+            }
         }
 
         ST boolMethod = new ST("<line>");
+
+        String funcName = "boolFunc" + funcCounter.toString();
 
         if(isStatic){
             boolMethod
@@ -73,8 +81,7 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
                     .add("line", "private ")
                     .add("line", "static ")
                     .add("line", "boolean ")
-                    .add("line", "boolFunc")
-                    .add("line", funcCounter.toString() + "(")
+                    .add("line",  funcName+ "(")
                     //arguments
                     .add("line", "){")
                     .add("line", "\n\t\t")
@@ -87,8 +94,7 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
                     .add("line", "\n\n\t")
                     .add("line", "private ")
                     .add("line", "boolean ")
-                    .add("line", "boolFunc")
-                    .add("line", funcCounter.toString() + "(")
+                    .add("line", funcName + "(")
                     .add("line", "){")
                     .add("line", "\n\t\t")
                     .add("line", "return ")
@@ -98,15 +104,13 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
 
         funcCounter++;
 
-        if(insertIndex == null){
+        if(insertIndex == null || ((JavaParser.MethodBodyContext) parent).stop.getTokenIndex() != insertIndex){
             insertIndex = ((JavaParser.MethodBodyContext) parent).stop.getTokenIndex();
         }
 
-        List<Token> tokenList = tokStream.getTokens(((JavaParser.MethodBodyContext) parent).stop.getTokenIndex(), ((JavaParser.MethodBodyContext) parent).stop.getTokenIndex());
-
-        System.out.println(tokenList.get(tokenList.size() - 1));
-
         rewriter.insertAfter(insertIndex, boolMethod.render());
+
+        rewriter.replace(ctx.expression().start, ctx.expression().stop, funcName + "()");
     }
 
 

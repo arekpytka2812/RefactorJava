@@ -5,6 +5,20 @@ public class Main{
 
         }
 
+        if(war5 && (wa2 || warunek3)){
+
+        }
+
+        return 123;
+    }
+
+    public static void test(){
+
+
+        if(war9 && (wa122 || tes321)){
+
+        }
+
         return 123;
     }
 }
