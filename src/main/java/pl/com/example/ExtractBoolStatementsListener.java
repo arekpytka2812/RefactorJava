@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 
 public class ExtractBoolStatementsListener extends JavaParserBaseListener {
 
+    private static final String LOG_OP_REGEX = "\\&\\&|\\|\\|";
+    private static final String IF_KEYWORD = "if";
+    public static final String LINE = "line";
     private final CommonTokenStream tokStream;
     public TokenStreamRewriter rewriter;
 
@@ -35,20 +38,22 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
     public void exitParExpression(JavaParser.ParExpressionContext ctx) {
 
         // sprawdzenie czy rozpatrujemy ifa
-        if(!ctx.parent.getChild(0).getText().equals("if")){
+        if(!ctx.parent.getChild(0).getText().equals(IF_KEYWORD)){
             return;
         }
 
-        Pattern pattern = Pattern.compile("\\&\\&|\\|\\|");
-        Matcher matcher = pattern.matcher(ctx.expression().getText());
+        Pattern logOpPattern = Pattern.compile(LOG_OP_REGEX);
+
+        Matcher logOpMatcher = logOpPattern.matcher(ctx.expression().getText());
 
         // Count the occurrences
-        int count = 0;
-        while (matcher.find()) {
-            count++;
+        int logOpCount = 0;
+
+        while (logOpMatcher.find()) {
+            logOpCount++;
         }
 
-        if(count < 2){
+        if(logOpCount < 2){
             return;
         }
 
@@ -75,32 +80,23 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
 
         String funcName = "boolFunc" + funcCounter.toString();
 
-        if(isStatic){
-            boolMethod
-                    .add("line", "\n\n\t")
-                    .add("line", "private ")
-                    .add("line", "static ")
-                    .add("line", "boolean ")
-                    .add("line",  funcName+ "(")
-                    //arguments
-                    .add("line", "){")
-                    .add("line", "\n\t\t")
-                    .add("line", "return ")
-                    .add("line", ctx.expression().getText() + ";")
-                    .add("line", "\n\t}");
+        boolMethod
+            .add(LINE, "\n\n\t")
+            .add(LINE, "private ");
+
+        if(isStatic) {
+            boolMethod.add(LINE, "static ");
         }
-        else {
-            boolMethod
-                    .add("line", "\n\n\t")
-                    .add("line", "private ")
-                    .add("line", "boolean ")
-                    .add("line", funcName + "(")
-                    .add("line", "){")
-                    .add("line", "\n\t\t")
-                    .add("line", "return ")
-                    .add("line", ctx.expression().getText() + ";")
-                    .add("line", "\n\t}");
-        }
+
+        boolMethod.add(LINE, "boolean ")
+            .add(LINE,  funcName+ "(")
+            //arguments
+            .add(LINE, "){")
+            .add(LINE, "\n\t\t")
+            .add(LINE, "return ")
+            .add(LINE, ctx.expression().getText() + ";")
+            .add(LINE, "\n\t}");
+
 
         funcCounter++;
 
