@@ -31,7 +31,7 @@ public class Main {
         ParseTree tree = par.compilationUnit();
         ParseTreeWalker walker = new ParseTreeWalker();
 
-        ExtractBoolStatementsListener extractBoolStatementsListener = new ExtractBoolStatementsListener(tokens, par, lex);
+        ExtractBoolStatementsListener extractBoolStatementsListener = new ExtractBoolStatementsListener(tokens, 2);
 
         walker.walk(extractBoolStatementsListener, tree);
 
