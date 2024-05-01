@@ -14,7 +14,7 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
 
     private static final String LOG_OP_REGEX = "\\&\\&|\\|\\|";
     //TODO: ten regex jeszcze czhyba do zgeneralizowania
-    private static final String VARIABLES_IN_EXPR_SEPARATION_REGEX = "\\b[A-Za-z][A-Za-z0-9]*\\b";
+    private static final String VARIABLES_IN_EXPR_SEPARATION_REGEX = "\\b[A-Za-z_][A-Za-z0-9_]*\\b";
     private static final int IF_TOKEN = 22;
     private static final int STATIC_TOKEN = 38;
     private static final String LINE = "line";

@@ -5,9 +5,9 @@ public class Main{
 
     public final void main(int test1, double test2){
 
-        float warunek;
+        float _warunek;
 
-        if(wa122 <= 0 && (Main.testowa || warunek)){
+        if(wa122 <= 0 && (Main.testowa || _warunek)){
 
         }
 
