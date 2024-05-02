@@ -1,11 +1,13 @@
 public class Main{
 
-    public final void main(){
-        if(war1 <= 0 && (wa2 || warunek3)){
+    boolean waruneczek;
+    int war9, wa122, tes321;
 
-        }
+    public final void main(int test1, double test2){
 
-        if(war5 && (wa2 || warunek3)){
+        float _warunek;
+
+        if(value.getValue() <= 0 && (Main.testowa || _warunek)){
 
         }
 
@@ -14,11 +16,18 @@ public class Main{
 
     public static void test(){
 
+        int war9;
 
         if(war9 && (wa122 || tes321)){
 
         }
 
+        if(war34 <= 0 && (Main.testowa || warunek)){
+
+        }
+
         return 123;
     }
+
+
 }
