@@ -19,9 +19,9 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
     private static final int STATIC_TOKEN = 38;
     private static final String LINE = "line";
     public TokenStreamRewriter rewriter;
-    private final Integer expandedEnoughExpressionIdentifier;
+    private final int expandedEnoughExpressionIdentifier;
     private Integer insertIndex = null;
-    private Integer functionCounter = 1;
+    private int functionCounter = 1;
     private final LocalSymbols symbols;
     private boolean isStatic = false;
 
@@ -231,7 +231,7 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
      * @return
      */
     private String createFunctionName(){
-        String functionName = "boolFunction" + functionCounter.toString();
+        String functionName = "boolFunction" + functionCounter;
         functionCounter++;
 
         return functionName;

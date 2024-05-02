@@ -7,7 +7,7 @@ public class Main{
 
         float _warunek;
 
-        if(wa122 <= 0 && (Main.testowa || _warunek)){
+        if(value.getValue() <= 0 && (Main.testowa || _warunek)){
 
         }
 
