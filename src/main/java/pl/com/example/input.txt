@@ -5,9 +5,12 @@ public class Main{
 
     public final void main(int test1, double test2){
 
-        float _warunek;
+        int value, value2;
+        int getValue;
 
-        if(value.getValue() <= 0 && (Main.testowa || _warunek)){
+        Test bruh = new Test();
+
+        if(value.getValue() <= value2.getValue() && Bruh.testowa() && (bruh.testowa || 12 == 1) && "test".isEmpty()){
 
         }
 
@@ -16,13 +19,13 @@ public class Main{
 
     public static void test(){
 
-        int war9;
+        int war9, wa122;
 
-        if(war9 && (wa122 || tes321)){
+        if(war9 && (waruneczek || war9 < 123) && (12 == wa122)){
 
         }
 
-        if(war34 <= 0 && (Main.testowa || warunek)){
+        if(waruneczek <= 0 && (Main.testowa || waruneczek)){
 
         }
 
