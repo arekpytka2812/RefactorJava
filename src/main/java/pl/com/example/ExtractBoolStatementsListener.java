@@ -17,6 +17,7 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
     //TODO: ten regex jeszcze czhyba do zgeneralizowania
     private static final String STATEMENTS_WITHOUT_LOG_OP_REGEX = "(?<=^|[\\s&|^!]|(==)|(=>)|(<=)|(!=)|[><])([_a-zA-Z\"'][_a-zA-Z0-9\\.()\"']*)(?=[\\s&|^!]|(==)|(=>)|(<=)|(!=)|[><=]|$)";
     private static final String STRING_OR_CHAR_REGEX = "^(('[^']*'$)|(\"[^\"]*\"))";
+    private static final String THIS_STRING = "this";
     private static final int IF_TOKEN = 22;
     private static final int STATIC_TOKEN = 38;
     private static final String LINE = "line";
@@ -255,6 +256,12 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
                 // if first letter of first var is capital, then it is either static
                 // method, or static variable
                 if(Character.isUpperCase(possibleCascadeFunctionCalls[0].charAt(0))){
+                    continue;
+                }
+
+                // if overriding class variable and reference by "this"
+                // such variable wont be passed as valid local variable
+                if(possibleCascadeFunctionCalls[0].equals(THIS_STRING)){
                     continue;
                 }
 

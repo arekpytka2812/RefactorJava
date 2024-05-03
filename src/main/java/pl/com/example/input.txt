@@ -8,9 +8,11 @@ public class Main{
         int value, value2;
         int getValue;
 
+        boolean waruneczek;
+
         Test bruh = new Test();
 
-        if(value.getValue() <= value2.getValue() && Bruh.testowa() && (bruh.testowa || 12 == 1) && "test".isEmpty()){
+        if(waruneczek <= value2.getValue() && Bruh.testowa() && (bruh.testowa || 12 == 1) && "test".isEmpty()){
 
         }
 
