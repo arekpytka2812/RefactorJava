@@ -4,7 +4,6 @@ package pl.com.example;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import pl.com.example.grammar.JavaLexer;
@@ -19,7 +18,7 @@ public class Main {
         CharStream inp = null;
 
         try {
-            inp =  CharStreams.fromFileName("./src/main/java/pl/com/example/input.txt");
+            inp =  CharStreams.fromFileName("./src/main/resources/input2.java");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -31,13 +30,14 @@ public class Main {
         ParseTree tree = par.compilationUnit();
         ParseTreeWalker walker = new ParseTreeWalker();
 
-        ExtractBoolStatementsListener extractBoolStatementsListener = new ExtractBoolStatementsListener(tokens, 2);
+//        ExtractBoolStatementsListener listener = new ExtractBoolStatementsListener(tokens, 2);
+        InlineBoolStatementListener listener = new InlineBoolStatementListener();
 
-        walker.walk(extractBoolStatementsListener, tree);
+        walker.walk(listener, tree);
 
         try {
-            var wr = new FileWriter("wy.java");
-            wr.write(extractBoolStatementsListener.rewriter.getText());
+            var wr = new FileWriter("./src/main/resources/wy.java");
+//            wr.write(listener.rewriter.getText());
             wr.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
