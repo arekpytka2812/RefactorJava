@@ -31,13 +31,13 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
 
 //        ExtractBoolStatementsListener listener = new ExtractBoolStatementsListener(tokens, 2);
-        InlineBoolStatementListener listener = new InlineBoolStatementListener();
+        InlineBoolStatementListener listener = new InlineBoolStatementListener(tokens);
 
         walker.walk(listener, tree);
 
         try {
             var wr = new FileWriter("./src/main/resources/wy.java");
-//            wr.write(listener.rewriter.getText());
+            wr.write(listener.rewriter.getText());
             wr.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
