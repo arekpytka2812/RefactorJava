@@ -153,9 +153,9 @@ public class ExtractBoolStatementsListener extends JavaParserBaseListener {
      */
     private boolean isExpandedEnough(String expression){
 
-        String[] splitedLogicOperations = expression.split(LOG_OP_REGEX);
+        String[] splitLogicOperations = expression.split(LOG_OP_REGEX);
 
-        this.statementsFromExpressionList = new ArrayList<>(Arrays.asList(splitedLogicOperations));
+        this.statementsFromExpressionList = new ArrayList<>(Arrays.asList(splitLogicOperations));
 
         return this.statementsFromExpressionList.size() >= expandedEnoughExpressionIdentifier;
     }
