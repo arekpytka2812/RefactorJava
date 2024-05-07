@@ -93,8 +93,6 @@ public class InlineBoolStatementListener extends JavaParserBaseListener {
 
         List<Method> methodCalls = new ArrayList<>();
 
-        System.out.println("NEW IF EXPR");
-
         while(methodCallMatcher.find()){
             String[] argNames = methodCallMatcher.group(2).split(",");
             methodCalls.add(
@@ -125,7 +123,6 @@ public class InlineBoolStatementListener extends JavaParserBaseListener {
             if (decl.memberDeclaration() != null && decl.memberDeclaration().methodDeclaration() != null) {
                 JavaParser.MethodDeclarationContext method = decl.memberDeclaration().methodDeclaration();
                 if (compareMethodSignatures(targetMethod, method)) {
-                    System.out.println(targetMethod.getSignature());
                     return method;
                 }
             }
@@ -155,14 +152,6 @@ public class InlineBoolStatementListener extends JavaParserBaseListener {
         return true;
     }
 
-    private String extractMethodBody(JavaParser.MethodDeclarationContext method) {
-        String body = rewriter.getTokenStream().getText(Interval.of(
-                method.methodBody().start.getTokenIndex(),
-                method.methodBody().stop.getTokenIndex())
-        );
-        return body.substring(1, body.indexOf("return")) + "\n\t";
-    }
-
     private String getReturnExpression(Method call, JavaParser.MethodDeclarationContext declaration) {
         for (JavaParser.BlockStatementContext statement : declaration.methodBody().block().blockStatement()) {
             if (statement.statement() != null && statement.statement().RETURN() != null) {
@@ -173,7 +162,7 @@ public class InlineBoolStatementListener extends JavaParserBaseListener {
                 )), call, declaration);
             }
         }
-        return null;
+        return "";
     }
 
     private String swapParams(String methodBody, Method call, JavaParser.MethodDeclarationContext declaration) {
@@ -186,11 +175,6 @@ public class InlineBoolStatementListener extends JavaParserBaseListener {
             return methodBody;
         }
 
-        Map<String, String> formalToActual = IntStream.range(0, formals.size()).boxed().collect(Collectors.toMap(
-                formals::get,
-                actual::get
-        ));
-
         String result = methodBody;
 
         for (int i = 0; i < formals.size(); i++) {
@@ -200,42 +184,13 @@ public class InlineBoolStatementListener extends JavaParserBaseListener {
     }
 
     static class Method {
-        private String name;
-        private List<Pair<String, String>> params;
+        private final String name;
+        private final List<Pair<String, String>> params;
 
         public Method(String name, List<Pair<String, String>> params) {
             this.name = name;
             this.params = params;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public List<Pair<String, String>> getParams() {
-            return params;
-        }
-
-        public void setParams(List<Pair<String, String>> params) {
-            this.params = params;
-        }
-
-        public String getSignature() {
-            StringBuilder signature = new StringBuilder();
-            signature.append(name).append("(");
-            Iterator<Pair<String,String>> iterator = params.iterator();
-            while (iterator.hasNext()){
-                signature.append(iterator.next().b);
-                if(iterator.hasNext()) {
-                    signature.append(", ");
-                }
-            }
-            signature.append(")");
-            return signature.toString();
-        }
     }
 }

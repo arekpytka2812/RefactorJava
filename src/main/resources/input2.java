@@ -16,10 +16,6 @@ public class Main{
     }
 
     private boolean boolFunction1(float _warunek){
-
-        String op = "jakas operacja";
-        System.out.println(op);
-
         return value.getValue()<=0&&(Main.testowa||_warunek);
     }
 
@@ -42,13 +38,13 @@ public class Main{
         return 123;
     }
 
-    public void chuj() {
+    public void foo() {
 
-        int pinis;
+        int number;
 
-        float chooy;
+        float innywar;
 
-        if(boolFunction1(chooy)) {
+        if(boolFunction1(innywar)) {
 
         }
 
